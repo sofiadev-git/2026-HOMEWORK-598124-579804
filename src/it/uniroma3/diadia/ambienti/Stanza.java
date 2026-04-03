@@ -128,7 +128,7 @@ public class Stanza {
 	public String toString() {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
-		risultato.append("\nUscite: ");
+		risultato.append("\nUscite:");
 		for (String direzione : this.direzioni)
 			if (direzione != null)
 				risultato.append(" " + direzione);
@@ -178,12 +178,18 @@ public class Stanza {
 	 * @param nomeAttrezzo
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
+	
+	/*dato che addAttrezzo dice che se ho n attrezzi allora metto il nuovo attrezzo in posizione n, non possiamo lasciare dei null in mezzo, 
+	 * bisogna prendere l'ultimo elemento e metterlo nel buco appena creato perché addAttrezzo prova a metterlo sull'ultimo*/
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
 		boolean out = false;
 		for(int i = 0; i < this.attrezzi.length; i++) {
-			if(this.attrezzi[i]!=null && this.attrezzi[i].equals(attrezzo))
-			this.attrezzi[i] = null;
-			out = true;
+			if(this.attrezzi[i]!=null && this.attrezzi[i].equals(attrezzo)) {
+				this.attrezzi[i] = this.attrezzi[this.numeroAttrezzi - 1]; 
+				this.attrezzi[this.numeroAttrezzi - 1] = null;
+				this.numeroAttrezzi--;
+				out = true;
+			}
 		}
 		return out;
 	}
