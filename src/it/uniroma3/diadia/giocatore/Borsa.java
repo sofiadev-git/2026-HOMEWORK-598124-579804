@@ -34,18 +34,20 @@ public class Borsa {
 
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
 		Attrezzo a = null;
-		for (int i = 0; i < this.numeroAttrezzi; i++)
-			if (this.attrezzi[i].getNome().equals(nomeAttrezzo))
+		for (int i = 0; i < this.numeroAttrezzi; i++) {
+			if (this.attrezzi[i]!=null && this.attrezzi[i].getNome().equals(nomeAttrezzo))
 				a = attrezzi[i];
-
+		}
 		return a;
 	}
 
 	public int getPeso() {
 		int peso = 0;
-		for (int i = 0; i < this.numeroAttrezzi; i++)
+		for (int i = 0; i < this.numeroAttrezzi; i++) {
+			if(this.attrezzi[i]!=null) {
 			peso += this.attrezzi[i].getPeso();
-
+			}
+		}
 		return peso;
 	}
 
@@ -57,13 +59,17 @@ public class Borsa {
 		return this.getAttrezzo(nomeAttrezzo) != null;
 	}
 
+	/*dato che addAttrezzo dice che se ho n attrezzi allora metto il nuovo attrezzo in posizione n, non possiamo lasciare dei null in mezzo, 
+	 * bisogna prendere l'ultimo elemento e metterlo nel buco appena creato perché addAttrezzo prova a metterlo sull'ultimo*/
 	public Attrezzo removeAttrezzo(String nomeAttrezzo) {
 		
 			Attrezzo out = getAttrezzo(nomeAttrezzo);
 			for(int i = 0; i < this.attrezzi.length; i++) {
-				if(this.attrezzi[i]!=null && this.attrezzi[i].equals(out));
-				this.attrezzi[i] = null;
-				
+				if(this.attrezzi[i]!=null && this.attrezzi[i].equals(out)) {
+					this.attrezzi[i] = this.attrezzi[this.numeroAttrezzi-1];
+					this.attrezzi[this.numeroAttrezzi-1]=null;
+					numeroAttrezzi--;
+				}
 			}
 			return out;
 		}
